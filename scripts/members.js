@@ -19,7 +19,7 @@ function updateMembers(members) {
     avatarElement.setAttribute('src', member.image);
     memberElement.appendChild(avatarElement);
     const nameElement = document.createElement('span');
-    nameElement.innerHTML = 'Тестовое имя';
+    nameElement.innerHTML = member.login;
     memberElement.appendChild(nameElement);
     membersContainer.appendChild(memberElement);
   }
