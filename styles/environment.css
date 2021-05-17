@@ -1,0 +1,29 @@
+:root {
+  --background-color: #13101E;
+  --accent-message-color: #4E38A3;
+  --dim-message-color: #383654;
+
+  --light-text-color: #FFFFFF;
+  --dim-text-color: #ACA8D8;
+
+  --input-border-color: #2B2834;
+  --container-border-color: #281F36;
+
+  --base-font: Open Sans, arial, serif;
+}
+
+button {
+  font-family: var(--base-font);
+
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+input {
+  font-family: var(--base-font);
+
+  border: 0;
+  background: transparent;
+  outline: 0;
+}
