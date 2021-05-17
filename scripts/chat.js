@@ -36,8 +36,16 @@ function sendMessage(text) {
   form.messageInput.value = '';
 }
 
-function receiveMessage(message) {
-  addOtherMessage(JSON.parse(message.data).message);
+async function getUser(id) {
+  const resp = await fetch(`${environment.serverUrls.http}/auth/profile/${id}`);
+  return await resp.json();
+}
+
+async function receiveMessage(message) {
+  const messageObj = JSON.parse(message.data);
+  const user = await getUser(messageObj.id);
+  console.log(messageObj, user);
+  addOtherMessage(messageObj.message, user);
 }
 
 function addSelfMessage(text) {
@@ -50,12 +58,29 @@ function addSelfMessage(text) {
   form.messagesContainer.scroll(0, form.messagesContainer.scrollHeight);
 }
 
-function addOtherMessage(text) {
+function addOtherMessage(text, user) {
   const messageContainer = document.createElement('div');
   messageContainer.classList.add('other-message-container');
-  const message = document.createElement('span');
-  message.innerHTML = text;
-  messageContainer.appendChild(message);
+
+  const messageAvatar = document.createElement('img');
+  messageAvatar.setAttribute('src', user.image);
+  messageContainer.appendChild(messageAvatar);
+
+  const messageContent = document.createElement('div');
+  messageContent.classList.add('message-content');
+
+  const messageAuthor = document.createElement('span');
+  messageAuthor.classList.add('message-author');
+  messageAuthor.innerHTML = user.login;
+  messageContent.appendChild(messageAuthor);
+
+  const messageText = document.createElement('span');
+  messageText.classList.add('message-text');
+  messageText.innerHTML = text;
+  messageContent.appendChild(messageText);
+
+  messageContainer.appendChild(messageContent);
+
   form.messagesContainer.appendChild(messageContainer);
   form.messagesContainer.scroll(0, form.messagesContainer.scrollHeight);
 }

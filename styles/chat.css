@@ -51,6 +51,7 @@ body {
 
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .self-message-container {
@@ -61,24 +62,43 @@ body {
   justify-content: flex-start;
 }
 
-.self-message-container span,
-.other-message-container span {
-  margin: 5px 20px;
+.self-message-container .message-content,
+.other-message-container .message-content {
+  margin: 5px;
   padding: 5px 10px;
 
   font-size: 14px;
 
   border-radius: 15px;
+
+  display: flex;
+  flex-direction: column;
 }
 
-.self-message-container span {
-  color: var(--light-text-color);
+.self-message-container .message-content {
   background: var(--accent-message-color);
+  color: var(--light-text-color);
 }
 
-.other-message-container span {
-  color: var(--dim-text-color);
+.self-message-container .message-author {
+  font-weight: bold;
+}
+
+.other-message-container .message-content {
   background: var(--dim-message-color);
+  color: var(--dim-text-color);
+}
+
+.other-message-container img {
+  width: 30px;
+
+  margin: 0 10px 0 20px;
+
+  border-radius: 5px;
+}
+
+.other-message-container .message-author {
+  font-weight: bold;
 }
 
 .input-container {
