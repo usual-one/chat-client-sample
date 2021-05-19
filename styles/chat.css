@@ -64,6 +64,8 @@ body {
 
 .self-message-container .message-content,
 .other-message-container .message-content {
+  max-width: 80%;
+
   margin: 5px;
   padding: 5px 10px;
 

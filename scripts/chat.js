@@ -1,5 +1,5 @@
 import { environment } from './environment.js';
-import { getToken, isAuthorized, } from './utils.js';
+import { getId, getToken, isAuthorized, } from './utils.js';
 
 if (!isAuthorized) {
   redirectToAuth();
@@ -37,29 +37,44 @@ function sendMessage(text) {
 }
 
 async function getUser(id) {
-  let resp;
-  try {
-    resp = await fetch(`${environment.serverUrls.http}/auth/profile/${id}`);
-  } catch(e) {
-    return await getUser(id);
-  } finally {
-    return await resp.json();
+  const resp = await fetch(`${environment.serverUrls.http}/auth/profile/${id}`);
+
+  if (resp.status >= 500) {
+    return await getUser();
   }
+  return await resp.json();
 }
 
 async function receiveMessage(message) {
   const messageObj = JSON.parse(message.data);
+
+  if (messageObj.id === getId()) {
+    return addSelfMessage(messageObj.message);
+  }
+
   const user = await getUser(messageObj.id);
-  console.log(messageObj, user);
   addOtherMessage(messageObj.message, user);
 }
 
 function addSelfMessage(text) {
   const messageContainer = document.createElement('div');
   messageContainer.classList.add('self-message-container');
-  const message = document.createElement('span');
-  message.innerHTML = text;
-  messageContainer.appendChild(message);
+
+  const messageContent = document.createElement('div');
+  messageContent.classList.add('message-content');
+
+  const messageAuthor = document.createElement('span');
+  messageAuthor.classList.add('message-author');
+  messageAuthor.innerHTML = 'Вы';
+  messageContent.appendChild(messageAuthor);
+
+  const messageText = document.createElement('span');
+  messageText.classList.add('message-text');
+  messageText.innerHTML = text;
+  messageContent.appendChild(messageText);
+
+  messageContainer.appendChild(messageContent);
+
   form.messagesContainer.appendChild(messageContainer);
   form.messagesContainer.scroll(0, form.messagesContainer.scrollHeight);
 }
@@ -69,7 +84,7 @@ function addOtherMessage(text, user) {
   messageContainer.classList.add('other-message-container');
 
   const messageAvatar = document.createElement('img');
-  messageAvatar.setAttribute('src', user.image);
+  messageAvatar.setAttribute('src', user.image + `?id=${Math.random()}`);
   messageContainer.appendChild(messageAvatar);
 
   const messageContent = document.createElement('div');

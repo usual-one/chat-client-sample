@@ -1,5 +1,5 @@
 import { environment } from './environment.js';
-import { isAuthorized, saveToken } from './utils.js';
+import { isAuthorized, saveAuthData } from './utils.js';
 
 const form = {
   usernameInput: document.getElementById('username'),
@@ -26,7 +26,9 @@ async function authorize() {
     method: 'POST',
   });
 
-  saveToken((await resp.json()).token);
+  const jsonResp = await resp.json();
+
+  saveAuthData(jsonResp.token, jsonResp.id);
   redirectToChat();
 }
 

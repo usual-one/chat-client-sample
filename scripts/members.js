@@ -16,7 +16,7 @@ function updateMembers(members) {
     const memberElement = document.createElement('div');
     memberElement.classList.add('member');
     const avatarElement = document.createElement('img');
-    avatarElement.setAttribute('src', member.image);
+    avatarElement.setAttribute('src', member.image + `?id=${Math.random()}`);
     memberElement.appendChild(avatarElement);
     const nameElement = document.createElement('span');
     nameElement.innerHTML = member.login;
