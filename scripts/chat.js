@@ -37,8 +37,14 @@ function sendMessage(text) {
 }
 
 async function getUser(id) {
-  const resp = await fetch(`${environment.serverUrls.http}/auth/profile/${id}`);
-  return await resp.json();
+  let resp;
+  try {
+    resp = await fetch(`${environment.serverUrls.http}/auth/profile/${id}`);
+  } catch(e) {
+    return await getUser(id);
+  } finally {
+    return await resp.json();
+  }
 }
 
 async function receiveMessage(message) {
