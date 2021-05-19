@@ -36,6 +36,7 @@ body {
 
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 
   overflow-y: scroll;
   scrollbar-width: none;
@@ -51,7 +52,7 @@ body {
 
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .self-message-container {
@@ -101,6 +102,13 @@ body {
 
 .other-message-container .message-author {
   font-weight: bold;
+}
+
+.message-time {
+  margin-bottom: 5px;
+
+  color: var(--dim-text-color);
+  font-size: 12px;
 }
 
 .input-container {

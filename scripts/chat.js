@@ -1,5 +1,6 @@
 import { environment } from './environment.js';
-import { getId, getToken, isAuthorized, } from './utils.js';
+import { getId, getToken, isAuthorized, } from './auth-utils.js';
+import { createElement } from './html-utils.js';
 
 if (!isAuthorized) {
   redirectToAuth();
@@ -57,19 +58,16 @@ async function receiveMessage(message) {
 }
 
 function addSelfMessage(text) {
-  const messageContainer = document.createElement('div');
-  messageContainer.classList.add('self-message-container');
+  const messageContainer = createElement('div', ['self-message-container']);
 
-  const messageContent = document.createElement('div');
-  messageContent.classList.add('message-content');
+  const messageTime = createElement('span', ['message-time'])
+  const currentTime = new Date();
+  messageTime.innerHTML = `${currentTime.toTimeString().substr(0, 5)}`;
+  messageContainer.appendChild(messageTime);
 
-  const messageAuthor = document.createElement('span');
-  messageAuthor.classList.add('message-author');
-  messageAuthor.innerHTML = 'Вы';
-  messageContent.appendChild(messageAuthor);
+  const messageContent = createElement('div', ['message-content'])
 
-  const messageText = document.createElement('span');
-  messageText.classList.add('message-text');
+  const messageText = createElement('div', ['message-text']);
   messageText.innerHTML = text;
   messageContent.appendChild(messageText);
 
@@ -80,27 +78,27 @@ function addSelfMessage(text) {
 }
 
 function addOtherMessage(text, user) {
-  const messageContainer = document.createElement('div');
-  messageContainer.classList.add('other-message-container');
+  const messageContainer = createElement('div', ['other-message-container']);
 
-  const messageAvatar = document.createElement('img');
-  messageAvatar.setAttribute('src', user.image + `?id=${Math.random()}`);
+  const messageAvatar = createElement('img', [], { src: user.image });
   messageContainer.appendChild(messageAvatar);
 
-  const messageContent = document.createElement('div');
-  messageContent.classList.add('message-content');
+  const messageContent = createElement('div', ['message-content']);
 
-  const messageAuthor = document.createElement('span');
-  messageAuthor.classList.add('message-author');
+  const messageAuthor = createElement('span', ['message-author']);
   messageAuthor.innerHTML = user.login;
   messageContent.appendChild(messageAuthor);
 
-  const messageText = document.createElement('span');
-  messageText.classList.add('message-text');
+  const messageText = createElement('span', ['message-text']);
   messageText.innerHTML = text;
   messageContent.appendChild(messageText);
 
   messageContainer.appendChild(messageContent);
+
+  const messageTime = createElement('span', ['message-time']);
+  const currentTime = new Date();
+  messageTime.innerHTML = `${currentTime.toTimeString().substr(0, 5)}`;
+  messageContainer.appendChild(messageTime);
 
   form.messagesContainer.appendChild(messageContainer);
   form.messagesContainer.scroll(0, form.messagesContainer.scrollHeight);

@@ -1,5 +1,5 @@
 import { environment } from './environment.js';
-import { isAuthorized, saveAuthData } from './utils.js';
+import { isAuthorized, saveAuthData } from './auth-utils.js';
 
 const form = {
   usernameInput: document.getElementById('username'),

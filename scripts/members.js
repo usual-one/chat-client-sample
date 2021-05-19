@@ -1,4 +1,5 @@
 import { environment } from './environment.js';
+import { createElement } from './html-utils.js';
 
 loadMembers();
 
@@ -13,14 +14,15 @@ async function loadMembers() {
 function updateMembers(members) {
   membersContainer.innerHTML = '';
   for (const member of members) {
-    const memberElement = document.createElement('div');
-    memberElement.classList.add('member');
-    const avatarElement = document.createElement('img');
-    avatarElement.setAttribute('src', member.image + `?id=${Math.random()}`);
+    const memberElement = createElement('div', ['member']);
+
+    const avatarElement = createElement('img', [], { src: member.image });
     memberElement.appendChild(avatarElement);
-    const nameElement = document.createElement('span');
+
+    const nameElement = createElement('span');
     nameElement.innerHTML = member.login;
     memberElement.appendChild(nameElement);
+
     membersContainer.appendChild(memberElement);
   }
 }
