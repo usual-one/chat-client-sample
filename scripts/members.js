@@ -7,7 +7,7 @@ const membersContainer = document.getElementById('members-content');
 async function loadMembers() {
   const resp = await fetch(`${environment.serverUrls.http}/users/chatters`);
   updateMembers(await resp.json());
-  setTimeout(loadMembers, 5000);
+  setTimeout(loadMembers, 10000);
 }
 
 function updateMembers(members) {
