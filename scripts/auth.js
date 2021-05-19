@@ -19,11 +19,15 @@ async function authorize() {
   }
 
   const resp = await fetch(`${environment.serverUrls.http}/auth/login`, {
-    body: {
+    body: JSON.stringify({
       login: form.usernameInput.value,
       password: form.passwordInput.value,
-    },
+    }),
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
   });
 
   const jsonResp = await resp.json();

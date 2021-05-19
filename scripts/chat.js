@@ -40,7 +40,7 @@ async function getUser(id) {
   const resp = await fetch(`${environment.serverUrls.http}/auth/profile/${id}`);
 
   if (resp.status >= 500) {
-    return await getUser();
+    return await getUser(id);
   }
   return await resp.json();
 }
