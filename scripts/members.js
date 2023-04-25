@@ -1,7 +1,7 @@
 import { environment } from './environment.js';
 import { createElement } from './html-utils.js';
 
-loadMembers();
+// loadMembers();
 
 const membersContainer = document.getElementById('members-content');
 

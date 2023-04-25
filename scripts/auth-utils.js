@@ -1,5 +1,16 @@
 const tokenKey = 'token';
 const idKey = 'id';
+const userKey = 'user';
+
+export function saveUserData(user) {
+  localStorage.setItem(userKey, JSON.stringify(user));
+}
+
+export function getUserData() {
+  const user = localStorage.getItem(userKey);
+  if (!user) { return null; }
+  return JSON.parse(user);
+}
 
 export function saveAuthData(token, id) {
   localStorage.setItem(tokenKey, token);
@@ -15,5 +26,6 @@ export function getId() {
 }
 
 export function isAuthorized() {
-  return !!getToken();
+  return !!getUserData();
+  // return !!getToken();
 }

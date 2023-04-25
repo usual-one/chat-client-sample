@@ -1,15 +1,23 @@
 import { environment } from './environment.js';
-import { getId, getToken, isAuthorized, } from './auth-utils.js';
+import { getId, getUserData, isAuthorized, } from './auth-utils.js';
 import { createElement } from './html-utils.js';
 
-if (!isAuthorized) {
+if (!isAuthorized()) {
   redirectToAuth();
 }
 
 const ws = new WebSocket(environment.serverUrls.ws);
 
 ws.onmessage = message => receiveMessage(message);
-ws.onopen = () => console.log('Connection opened');
+ws.onopen = () => {
+  console.log('Connection opened');
+  ws.send(JSON.stringify({
+    event: 'auth',
+    data: {
+      userId: getUserData().id,
+    },
+  }));
+};
 
 const form = {
   messagesContainer: document.getElementById('messages-container'),
@@ -29,8 +37,9 @@ function sendMessage(text) {
   ws.send(JSON.stringify({
     event: 'message',
     data: {
-      token: getToken(),
-      message: text,
+      userId: getUserData().id,
+      // token: getToken(),
+      text,
     },
   }));
 
@@ -38,7 +47,7 @@ function sendMessage(text) {
 }
 
 async function getUser(id) {
-  const resp = await fetch(`${environment.serverUrls.http}/auth/profile/${id}`);
+  const resp = await fetch(`${environment.serverUrls.http}/api/user/${id}`);
 
   if (resp.status >= 500) {
     return await getUser(id);
@@ -47,14 +56,15 @@ async function getUser(id) {
 }
 
 async function receiveMessage(message) {
-  const messageObj = JSON.parse(message.data);
+  const messageObj = JSON.parse(message.data).data;
 
-  if (messageObj.id === getId()) {
-    return addSelfMessage(messageObj.message);
+  // if (messageObj.id === getId()) {
+  if (messageObj.userId === getUserData().id) {
+    return addSelfMessage(messageObj.text);
   }
 
-  const user = await getUser(messageObj.id);
-  addOtherMessage(messageObj.message, user);
+  const user = await getUser(messageObj.userId);
+  addOtherMessage(messageObj.text, user);
 }
 
 function addSelfMessage(text) {
