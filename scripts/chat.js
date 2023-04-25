@@ -90,13 +90,13 @@ function addSelfMessage(text) {
 function addOtherMessage(text, user) {
   const messageContainer = createElement('div', ['other-message-container']);
 
-  const messageAvatar = createElement('img', [], { src: user.image });
-  messageContainer.appendChild(messageAvatar);
+  // const messageAvatar = createElement('img', [], { src: user.image });
+  // messageContainer.appendChild(messageAvatar);
 
   const messageContent = createElement('div', ['message-content']);
 
   const messageAuthor = createElement('span', ['message-author']);
-  messageAuthor.innerHTML = user.login;
+  messageAuthor.innerHTML = user.name;
   messageContent.appendChild(messageAuthor);
 
   const messageText = createElement('span', ['message-text']);
