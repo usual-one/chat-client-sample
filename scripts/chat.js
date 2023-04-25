@@ -90,8 +90,18 @@ function addSelfMessage(text) {
 function addOtherMessage(text, user) {
   const messageContainer = createElement('div', ['other-message-container']);
 
-  // const messageAvatar = createElement('img', [], { src: user.image });
-  // messageContainer.appendChild(messageAvatar);
+  if (user.avatar) {
+    const messageAvatar = createElement('img', [], { src: user.avatar });
+    messageContainer.appendChild(messageAvatar);
+  } else {
+    const avatar = createElement('span');
+    avatar.setAttribute('style', 'width: 30px; height: 30px; border-radius: 10px; margin: 5px; margin-left: 10px; display: flex; align-items: center; justify-content: center; background: #5047cc');
+    const letter = createElement('span');
+    letter.innerHTML = user.name[0];
+    letter.setAttribute('style', 'color: white; font-size: 16px');
+    avatar.appendChild(letter);
+    messageContainer.appendChild(avatar);
+  }
 
   const messageContent = createElement('div', ['message-content']);
 
