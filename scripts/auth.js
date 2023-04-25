@@ -41,5 +41,5 @@ async function authorize() {
 }
 
 function redirectToChat() {
-  window.location.replace(`${environment.localUrl}/pages/chat.html`);
+  window.location.replace(`${window.location.origin}/pages/chat.html`);
 }

@@ -115,5 +115,5 @@ function addOtherMessage(text, user) {
 }
 
 function redirectToAuth() {
-  window.location.replace(`${environment.localUrl}/pages/auth.html`);
+  window.location.replace(`${window.location.origin}/pages/auth.html`);
 }
